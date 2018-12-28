@@ -54,9 +54,11 @@ namespace BTCPayServer.Controllers
             }
             else
             {
+
                 var sin = this.User.GetSIN() ?? request.Id;
                 if (string.IsNullOrEmpty(sin) || !NBitpayClient.Extensions.BitIdExtensions.ValidateSIN(sin))
-                    throw new BitpayHttpException(400, "'id' property is required, alternatively, use BitId");
+                    throw new BitpayHttpException(400, "'id' property is required, alternatively, use BitId" +
+                        " request.PairingCode:"+ request.PairingCode+ " request.Id:"+ request.Id + " request.Guid" + request.Guid);
 
                 pairingEntity = await _TokenRepository.GetPairingAsync(request.PairingCode);
                 if (pairingEntity == null)
